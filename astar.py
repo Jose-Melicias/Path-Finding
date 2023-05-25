@@ -77,20 +77,23 @@ class Spot:
         self.diags = []
         if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): #DOWN
             self.neighbors.append(grid[self.row + 1][self.col])
-            if self.col < self.total_rows - 1 and not grid[self.row + 1][self.col + 1].is_barrier(): #DOWN-RIGHT
+            # DOWN-RIGHT
+            if self.col < self.total_rows - 1 and not grid[self.row + 1][self.col + 1].is_barrier() and not grid[self.row][self.col + 1].is_barrier():
                 self.neighbors.append(grid[self.row + 1][self.col + 1])
                 self.diags.append(grid[self.row + 1][self.col + 1])
-            if self.col > 0 and not grid[self.row + 1][self.col - 1].is_barrier(): #DOWN-LEFT
+            # DOWN-LEFT
+            if self.col > 0 and not grid[self.row + 1][self.col - 1].is_barrier() and not grid[self.row][self.col - 1].is_barrier():
                 self.neighbors.append(grid[self.row + 1][self.col - 1])
                 self.diags.append(grid[self.row + 1][self.col - 1])
 
 
         if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): #UP
             self.neighbors.append(grid[self.row - 1][self.col])
-            if self.col < self.total_rows - 1 and not grid[self.row - 1][self.col + 1].is_barrier(): #UP-RIGHT
+            # UP-RIGHT
+            if self.col < self.total_rows - 1 and not grid[self.row - 1][self.col + 1].is_barrier() and not grid[self.row][self.col + 1].is_barrier():
                 self.neighbors.append(grid[self.row - 1][self.col + 1])
                 self.diags.append(grid[self.row - 1][self.col + 1])
-            if self.col > 0 and not grid[self.row - 1][self.col - 1].is_barrier(): #UP-LEFT
+            if self.col > 0 and not grid[self.row - 1][self.col - 1].is_barrier() and not grid[self.row][self.col - 1].is_barrier():  # UP-LEFT
                 self.neighbors.append(grid[self.row - 1][self.col - 1])
                 self.diags.append(grid[self.row - 1][self.col - 1])
 
