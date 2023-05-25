@@ -74,11 +74,25 @@ class Spot:
 
     def update_neighbors(self, grid):
         self.neighbors = []
+        self.diags = []
         if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): #DOWN
             self.neighbors.append(grid[self.row + 1][self.col])
+            if self.col < self.total_rows - 1 and not grid[self.row + 1][self.col + 1].is_barrier(): #DOWN-RIGHT
+                self.neighbors.append(grid[self.row + 1][self.col + 1])
+                self.diags.append(grid[self.row + 1][self.col + 1])
+            if self.col > 0 and not grid[self.row + 1][self.col - 1].is_barrier(): #DOWN-LEFT
+                self.neighbors.append(grid[self.row + 1][self.col - 1])
+                self.diags.append(grid[self.row + 1][self.col - 1])
+
 
         if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): #UP
             self.neighbors.append(grid[self.row - 1][self.col])
+            if self.col < self.total_rows - 1 and not grid[self.row - 1][self.col + 1].is_barrier(): #UP-RIGHT
+                self.neighbors.append(grid[self.row - 1][self.col + 1])
+                self.diags.append(grid[self.row - 1][self.col + 1])
+            if self.col > 0 and not grid[self.row - 1][self.col - 1].is_barrier(): #UP-LEFT
+                self.neighbors.append(grid[self.row - 1][self.col - 1])
+                self.diags.append(grid[self.row - 1][self.col - 1])
 
         if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): #RIGHT
             self.neighbors.append(grid[self.row][self.col + 1])
@@ -129,7 +143,10 @@ def algorithm(draw, grid, start, end):
             return True
             
         for neighbor in current.neighbors:
-            temp_g_score = g_score[current] + 1
+            if neighbor not in current.diags:
+                temp_g_score = g_score[current] + 1
+            else:
+                temp_g_score = g_score[current] + 1.4
 
             if temp_g_score < g_score[neighbor]:
                 came_from[neighbor] = current
